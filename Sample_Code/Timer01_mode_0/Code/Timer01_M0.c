@@ -1,13 +1,14 @@
 /*---------------------------------------------------------------------------------------------------------*/
 /*                                                                                                         */
-/* Copyright(c) 2017 Nuvoton Technology Corp. All rights reserved.                                         */
+/* Copyright(c) 2016 Nuvoton Technology Corp. All rights reserved.                                         */
 /*                                                                                                         */
 /*---------------------------------------------------------------------------------------------------------*/
 
 //***********************************************************************************************************
+//  Nuvoton Technoledge Corp. 
 //  Website: http://www.nuvoton.com
 //  E-Mail : MicroC-8bit@nuvoton.com
-//  Date   : Jan/21/2017
+//  Date   : Apr/21/2016
 //***********************************************************************************************************
 
 //***********************************************************************************************************
@@ -35,10 +36,10 @@
 //#define		TIMER0_MODE3_ENABLE		TMOD&=0xF0;TMOD|=0xF3
 #endif
 
-#define TH0_INIT        0x00 //5.0ms@XTAL=12MHz, Period = (10.85/2) ms@XTAL=22.1184MHz
-#define TL0_INIT        0x80
-#define TH1_INIT        0x00 //2.5ms@XTAL=12MHz, Period = (5.425/2) ms@XTAL=22.1184MHz
-#define TL1_INIT        0xff
+#define TH0_INIT        0xFC //5.0ms@XTAL=12MHz, Period = (10.85/2) ms@XTAL=22.1184MHz
+#define TL0_INIT        0x0F
+#define TH1_INIT        0xE0 //2.5ms@XTAL=12MHz, Period = (5.425/2) ms@XTAL=22.1184MHz
+#define TL1_INIT        0x00
 
 
 /************************************************************************************************************
@@ -77,13 +78,21 @@ void main (void)
 	TH1 = TH1_INIT;
 	TL1 = TL1_INIT;
     
-	set_ET0;                                    //enable Timer0 interrupt
+//	set_ET0;                                    //enable Timer0 interrupt
 	set_ET1;                                    //enable Timer1 interrupt
 	set_EA;                                     //enable interrupts
 	
 	set_TR0;                                    //Timer0 run
-	set_TR1;                                    //Timer1 run
+//	set_TR1;                                    //Timer1 run
 
-  while(1);
+  while(1)
+	{
+		TH0 = TH0_INIT;
+		TL0 = TL0_INIT;
+		set_TR0; 
+		while(!TF0);
+		clr_TR0;
+		P12 = ~P12;	
+		TF0 = 0 ;
 }
-
+}

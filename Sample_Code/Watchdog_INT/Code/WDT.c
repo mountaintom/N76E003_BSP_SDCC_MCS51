@@ -1,13 +1,14 @@
 /*---------------------------------------------------------------------------------------------------------*/
 /*                                                                                                         */
-/* Copyright(c) 2017 Nuvoton Technology Corp. All rights reserved.                                         */
+/* Copyright(c) 2016 Nuvoton Technology Corp. All rights reserved.                                         */
 /*                                                                                                         */
 /*---------------------------------------------------------------------------------------------------------*/
 
 //***********************************************************************************************************
+//  Nuvoton Technoledge Corp. 
 //  Website: http://www.nuvoton.com
 //  E-Mail : MicroC-8bit@nuvoton.com
-//  Date   : Jan/21/2017
+//  Date   : Apr/21/2016
 //***********************************************************************************************************
 
 //***********************************************************************************************************
@@ -52,19 +53,28 @@ void main (void)
     
   Set_All_GPIO_Quasi_Mode;
 	
+						clr_GPIO1;
+						Timer0_Delay1ms(500);
+						set_GPIO1;
+						Timer0_Delay1ms(500);
+						clr_GPIO1;
+						Timer0_Delay1ms(500);
+						set_GPIO1;
+						Timer0_Delay1ms(500);
+	
 //WDT init
 //--------------------------------------------------------
 //Warning:
 //Pleaes always check CONFIG WDT disable first 
 //only when WDT reset disable, WDT use as pure timer
 //--------------------------------------------------------
-	  TA=0xAA;TA=0x55;WDCON=0x06;  		//Setting WDT prescale 
+	  TA=0xAA;TA=0x55;WDCON=0x07;  		//Setting WDT prescale 
 		set_WDTR;                       //WDT run
 		set_WDCLR;											//Clear WDT timer
 		set_EWDT;
 		EA =1;
 
-#if 1
+#if 0
     while(1);
 #else
 		set_WIDPD; 											//WDT run in POWER DOWM mode setting if needed

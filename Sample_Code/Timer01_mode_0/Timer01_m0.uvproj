@@ -289,7 +289,7 @@
             <uAregs>0</uAregs>
             <UseInterruptVector>1</UseInterruptVector>
             <Fuzzy>3</Fuzzy>
-            <Optimize>8</Optimize>
+            <Optimize>0</Optimize>
             <WarningLevel>2</WarningLevel>
             <SizeSpeed>1</SizeSpeed>
             <ObjectExtend>1</ObjectExtend>
@@ -365,6 +365,11 @@
               <FileName>Delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Common\Delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>Common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Common\Common.c</FilePath>
             </File>
           </Files>
         </Group>

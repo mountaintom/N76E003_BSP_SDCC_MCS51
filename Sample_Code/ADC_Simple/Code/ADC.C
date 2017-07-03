@@ -1,23 +1,26 @@
 /*---------------------------------------------------------------------------------------------------------*/
 /*                                                                                                         */
-/* Copyright(c) 2017 Nuvoton Technology Corp. All rights reserved.                                         */
+/* Copyright(c) 2016 Nuvoton Technology Corp. All rights reserved.                                         */
 /*                                                                                                         */
 /*---------------------------------------------------------------------------------------------------------*/
 
 //***********************************************************************************************************
+//  Nuvoton Technoledge Corp. 
 //  Website: http://www.nuvoton.com
 //  E-Mail : MicroC-8bit@nuvoton.com
-//  Date   : Jan/21/2017
+//  Date   : Apr/21/2016
 //***********************************************************************************************************
 
 //***********************************************************************************************************
-//  File Function: N76E003  ADC demo code
+//  File Function: N76E885 ADC demo code
 //***********************************************************************************************************
+
 #include "N76E003.h"
 #include "SFR_Macro.h"
 #include "Function_define.h"
 #include "Common.h"
 #include "Delay.h"
+
 
 //*****************  The Following is in define in Fucntion_define.h  ***************************
 //****** Always include Function_define.h call the define you want, detail see main(void) *******
@@ -60,8 +63,8 @@ void main (void)
 			clr_ADCF;
 			set_ADCS;									// ADC start trig signal
       while(ADCF == 0);
-//			printf ("\n Value = 0x%bx",ADCRH);
-//			printf ("\n Value = 0x%bx",ADCRL);
+			printf ("\n Value = 0x%bx",ADCRH);
+			printf ("\n Value = 0x%bx",ADCRL);
 			Timer0_Delay1ms(100);
     }
 }

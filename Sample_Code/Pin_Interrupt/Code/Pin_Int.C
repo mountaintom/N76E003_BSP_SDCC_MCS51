@@ -1,13 +1,14 @@
 /*---------------------------------------------------------------------------------------------------------*/
 /*                                                                                                         */
-/* Copyright(c) 2017 Nuvoton Technology Corp. All rights reserved.                                         */
+/* Copyright(c) 2015 Nuvoton Technology Corp. All rights reserved.                                         */
 /*                                                                                                         */
 /*---------------------------------------------------------------------------------------------------------*/
 
 //***********************************************************************************************************
+//  Nuvoton Technoledge Corp. 
 //  Website: http://www.nuvoton.com
 //  E-Mail : MicroC-8bit@nuvoton.com
-//  Date   : Jan/21/2017
+//  Date   : Apr/21/2016
 //***********************************************************************************************************
 
 //***********************************************************************************************************
@@ -172,8 +173,8 @@ void main (void)
 //  Keep P0.5 connect to VDD LED will tickle
 //  otherwise, MCU into power down mode.
 //----------------------------------------------------
-		Enable_INT_Port0;
-		Enable_BIT7_LowLevel_Trig;
+		Enable_INT_Port2;
+//		Enable_BIT7_LowLevel_Trig;
 		Enable_BIT0_LowLevel_Trig;
 
 		P30 =1;

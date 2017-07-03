@@ -108,60 +108,55 @@ The main C function.  Program execution starts
 here after stack initialization.
 ------------------------------------------------*/
 
-void PinInterrupt_ISR (void) interrupt 7
-{
-	if (PIF == 0x80)
-	{
-			clr_GPIO1;
-			Timer1_Delay10ms(10);
-			set_GPIO1;
-			Timer1_Delay10ms(10);
-			clr_GPIO1;
-			Timer1_Delay10ms(10);
-			set_GPIO1;
-			Timer1_Delay10ms(10);   
-			clr_GPIO1;
-			Timer1_Delay10ms(10);
-			set_GPIO1;
-			Timer1_Delay10ms(10);
-			clr_GPIO1;
-			Timer1_Delay10ms(10);
-			set_GPIO1;
-			Timer1_Delay10ms(10);    
-	}
-}
-
-
 void main (void) 
 {
+//	unsigned char temp;
 	Set_All_GPIO_Quasi_Mode;					// Define in Function_define.h
 	
-#if 1
+#if 0
 	InitialUART0_Timer3(115200);
-	set_CLOEN;  
+//	set_CLOEN;  
   
   while(1)
   {
 		clr_GPIO1;											// Tiny board GPIO1 LED define
-		Timer0_Delay1ms(300);
+		P0 = 0x00;
+		P2 = 0x00;
+		P1 = 0x00;
+		Timer0_Delay1ms(30);
+		P0 = 0xff;
+		P2 = 0xff;
+		P1 = 0xff;
 		set_GPIO1;	
-		Timer0_Delay1ms(300);
-	Send_Data_To_UART0(0x35);					//UART0 send ascii "U"
+
+		Send_Data_To_UART0(0x35);					//UART0 send ascii "U"
+		temp = 0x31 + P0;
+		Send_Data_To_UART0(temp);
+		temp = 0x31 + P1;
+		Send_Data_To_UART0(temp);
+
+		Timer0_Delay1ms(30);
+  }
+#endif
+
+#if 1
+  
+  while(1)
+  {
+		clr_GPIO1;											// Tiny board GPIO1 LED define
+		P0 = 0x00;
+		P2 = 0x00;
+		P1 = 0x00;
+		Timer0_Delay1ms(30);
+		P0 = 0xff;
+		P2 = 0xff;
+		P1 = 0xff;
+		set_GPIO1;	
+		Timer0_Delay1ms(30);
   }
 #endif
 	
-	P17_OpenDrain_Mode;
-	Enable_INT_Port1;
-	Enable_BIT7_FallEdge_Trig;
-	
-    set_EPI;							// Enable pin interrupt
-    set_EA;								// global enable bit
-	
-	while(1);
-	
-	
-	
-	
+
 }
 
 

@@ -76,6 +76,8 @@ SP      DATA    81H
 DPL     DATA    82H
 DPH     DATA    83H
 
+
+
                 NAME    ?C_STARTUP
 
 
@@ -94,6 +96,14 @@ DPH     DATA    83H
                 RSEG    ?C_C51STARTUP
 
 STARTUP1:
+;Disable POR 
+	MOV 0C7H,#0AAH
+	MOV 0C7H,#55H
+	MOV 0FDH,#5AH
+	
+	MOV 0C7H,#0AAH
+	MOV 0C7H,#55H
+	MOV 0FDH,#0A5H
 
 IF IDATALEN <> 0
                 MOV     R0,#IDATALEN - 1

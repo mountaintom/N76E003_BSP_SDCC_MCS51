@@ -1,13 +1,14 @@
 /*---------------------------------------------------------------------------------------------------------*/
 /*                                                                                                         */
-/* Copyright(c) 2017 Nuvoton Technology Corp. All rights reserved.                                         */
+/* Copyright(c) 2016 Nuvoton Technology Corp. All rights reserved.                                         */
 /*                                                                                                         */
 /*---------------------------------------------------------------------------------------------------------*/
 
 //***********************************************************************************************************
+//  Nuvoton Technoledge Corp. 
 //  Website: http://www.nuvoton.com
 //  E-Mail : MicroC-8bit@nuvoton.com
-//  Date   : Jan/21/2017
+//  Date   : Jun/21/2017
 //***********************************************************************************************************
 
 //***********************************************************************************************************
@@ -34,8 +35,6 @@
 #include "Common.h"
 #include "Delay.h"
 
-
-//***********************************************************************************************************
 #define SYS_CLK_EN              0
 #define SYS_SEL                 2
 #define SYS_DIV_EN              0                   //0: Fsys=Fosc, 1: Fsys = Fosc/(2*CKDIV)
@@ -53,9 +52,13 @@
 #define ERROR_CODE              0x78
 #define TEST_OK                 0x00
 
+bit I2C_Reset_Flag;
 //========================================================================================================
 void Init_I2C(void)
 {
+		P13_OpenDrain_Mode;					// Modify SCL pin to Open drain mode. don't forget the pull high resister in circuit
+		P14_OpenDrain_Mode;					// Modify SDA pin to Open drain mode. don't forget the pull high resister in circuit
+	
     /* Set I2C clock rate */
     I2CLK = I2C_CLOCK; 
 
@@ -63,6 +66,23 @@ void Init_I2C(void)
     set_I2CEN;                                   
 }
 //========================================================================================================
+void I2C_SI_Check(void)
+{
+		if (I2STAT == 0x00)
+		{
+				I2C_Reset_Flag = 1;
+				set_STO;
+				SI = 0;
+				if(SI)
+				{
+						clr_I2CEN;
+						set_I2CEN;
+						clr_SI;
+						clr_I2CEN;		
+				} 	
+		}	
+}
+
 void One_Page_Read(UINT8 u8PageNumber,UINT8 u8DAT)
 {
     UINT8  u8Count;
@@ -76,9 +96,9 @@ void One_Page_Read(UINT8 u8PageNumber,UINT8 u8DAT)
     while (!SI);
     if (I2STAT != 0x08)                     /* 0x08:  A START condition has been transmitted*/
     {
-        LED = ERROR_CODE;
-        printf("\nI2C 'Send STA' error");
-        while (1);
+        I2C_Reset_Flag = 1;
+				printf("\nI2C 'Send STA' error");
+				goto Read_Error_Stop;
     }
 
     /* Step2 */
@@ -88,9 +108,9 @@ void One_Page_Read(UINT8 u8PageNumber,UINT8 u8DAT)
     while (!SI);
     if (I2STAT != 0x18)                     /* 0x18: SLA+W has been transmitted; ACK has been received */              
     {
-        LED = ERROR_CODE;
+				I2C_Reset_Flag = 1;
         printf("\nI2C 'Send SLA+W' error");
-        while(1);
+				goto Read_Error_Stop;
     }
 
     /* Step3 */
@@ -99,9 +119,9 @@ void One_Page_Read(UINT8 u8PageNumber,UINT8 u8DAT)
     while (!SI);
     if (I2STAT != 0x28)                     /* 0x28:  Data byte in S1DAT has been transmitted; ACK has been received */              
     {
-        LED = ERROR_CODE;
+				I2C_Reset_Flag = 1;
         printf("\nI2C 'Send I2C High Byte Address' error");
-        while (1);
+				goto Read_Error_Stop;
     }
 
     /* Step4 */
@@ -110,9 +130,9 @@ void One_Page_Read(UINT8 u8PageNumber,UINT8 u8DAT)
     while (!SI);
     if (I2STAT != 0x28)                     /* 0x28:  Data byte in S1DAT has been transmitted; ACK has been received */             
     {
-        LED = ERROR_CODE;
-        printf("\nI2C 'Send I2C Low Byte Address' error");
-        while (1);
+				I2C_Reset_Flag = 1;
+				printf("\nI2C 'Send I2C Low Byte Address' error");
+				goto Read_Error_Stop;
     }
 
     /* Step5 */
@@ -121,9 +141,9 @@ void One_Page_Read(UINT8 u8PageNumber,UINT8 u8DAT)
     while (!SI);
     if (I2STAT != 0x10)                     /* 0x10: A repeated START condition has been transmitted */
     {
-        LED = ERROR_CODE;
+				I2C_Reset_Flag = 1;
         printf("\nI2C 'Send STA' error");
-        while (1);
+				goto Read_Error_Stop;
     }
 
     /* Step6 */
@@ -133,9 +153,9 @@ void One_Page_Read(UINT8 u8PageNumber,UINT8 u8DAT)
     while (!SI);
     if (I2STAT != 0x40)                     /* 0x40:  SLA+R has been transmitted; ACK has been received */              
     {
-        LED = ERROR_CODE;
+				I2C_Reset_Flag = 1;
         printf("\nI2C 'Send SLA+R' error");
-        while (1);
+				goto Read_Error_Stop;
     }
 
     /* Step7 */                             /* Verify I2C EEPROM data */
@@ -146,16 +166,16 @@ void One_Page_Read(UINT8 u8PageNumber,UINT8 u8DAT)
         while (!SI);
         if (I2STAT != 0x50)                 /* 0x50:Data byte has been received; NOT ACK has been returned */              
         {
-            LED = ERROR_CODE;
+						I2C_Reset_Flag = 1;
             printf("\nI2C 'No Ack' error");
-            while (1);
+						goto Read_Error_Stop;
         }
        
         if (I2DAT != u8DAT)                 /* Send the Data to EEPROM */    
         {
-            LED = ERROR_CODE;
-            printf("\nI2C 'Read data' error");
-            while (1);
+						I2C_Reset_Flag = 1;
+						printf("\nI2C 'Read data' error");
+            goto Read_Error_Stop;
         }
         u8DAT = ~u8DAT; 
     }
@@ -166,15 +186,28 @@ void One_Page_Read(UINT8 u8PageNumber,UINT8 u8DAT)
     while (!SI);
     if (I2STAT != 0x58)                     /* 0x58:Data byte has been received; ACK has been returned */
     {
-        LED = ERROR_CODE;
+        I2C_Reset_Flag = 1;
         printf("\nI2C 'Ack' error");
-        while (1);
+        goto Read_Error_Stop;
     }
     
-    /* Step9 */    
-    clr_SI;
+	/* Step9 */    
+	  clr_SI;
     set_STO;
-    while (STO);                            /* Check STOP signal */ 
+		while (STO)                        /* Check STOP signal */
+		{
+			I2C_SI_Check();
+			if (I2C_Reset_Flag)
+				goto Read_Error_Stop;
+		}
+		
+Read_Error_Stop: 
+		if (I2C_Reset_Flag)
+		{
+				I2C_SI_Check();
+			  printf("\nI2C Read error, test stop");
+				I2C_Reset_Flag = 0;
+		}
 }
 //========================================================================================================
 void One_Page_Write(UINT8 u8PageNumber,UINT8 u8DAT)
@@ -190,9 +223,9 @@ void One_Page_Write(UINT8 u8PageNumber,UINT8 u8DAT)
     while (!SI);
     if (I2STAT != 0x08)                     /* 0x08:  A START condition has been transmitted*/
     {
-        LED = ERROR_CODE;
+        I2C_Reset_Flag = 1;
         printf("\nI2C 'Send STA' error");
-        while (1);
+        goto Write_Error_Stop;
     }
 
     /* Step2 */
@@ -202,9 +235,9 @@ void One_Page_Write(UINT8 u8PageNumber,UINT8 u8DAT)
     while (!SI);
     if (I2STAT != 0x18)                     /* 0x18: SLA+W has been transmitted; ACK has been received */             
     {
-        LED = ERROR_CODE;
+        I2C_Reset_Flag = 1;
         printf("\nI2C 'Send SLA+W' error");
-        while (1);
+        goto Write_Error_Stop;
     }
 
     /* Step3 */
@@ -213,9 +246,9 @@ void One_Page_Write(UINT8 u8PageNumber,UINT8 u8DAT)
     while (!SI);
     if (I2STAT != 0x28)                     /* 0x28:  Data byte in S1DAT has been transmitted; ACK has been received */
     {
-        LED = ERROR_CODE;
+        I2C_Reset_Flag = 1;
         printf("\nI2C 'Send High byte address' error");
-        while (1);
+        goto Write_Error_Stop;
     }
 
     /* Step4 */
@@ -224,9 +257,9 @@ void One_Page_Write(UINT8 u8PageNumber,UINT8 u8DAT)
     while (!SI);
     if (I2STAT != 0x28)                     /* 0x28:  Data byte in S1DAT has been transmitted; ACK has been received */
     {
-        LED = ERROR_CODE;
+        I2C_Reset_Flag = 1;
         printf("\nI2C 'Send Low byte address' error");
-        while (1);
+        goto Write_Error_Stop;
     }
 
     /* Step5 */
@@ -238,9 +271,9 @@ void One_Page_Write(UINT8 u8PageNumber,UINT8 u8DAT)
         while (!SI);
         if (I2STAT != 0x28)                 /* 0x28:  Data byte in S1DAT has been transmitted; ACK has been received */
         {
-            LED = ERROR_CODE;
-            printf("\nI2C 'Write Data' error");
-            while (1);
+            I2C_Reset_Flag = 1;
+						printf("\nI2C 'Write Data' error");
+            goto Write_Error_Stop;
         }   
         u8DAT = ~u8DAT;        
     }
@@ -250,18 +283,23 @@ void One_Page_Write(UINT8 u8PageNumber,UINT8 u8DAT)
     /* Step6 */
     do
     {
-        set_STO;                            /* Set I2C STOP Control Bit */
+			  set_STO;                            /* Set I2C STOP Control Bit */
         clr_SI;
-        while (STO);                        /* Check STOP signal */
+        while (STO)                        /* Check STOP signal */
+				{
+					I2C_SI_Check();
+					if (I2C_Reset_Flag)
+						goto Write_Error_Stop;
+				}
         
         set_STA;                            /* Check if no ACK is returned by EEPROM, it is under timed-write cycle */
         clr_SI;
         while (!SI);
         if (I2STAT != 0x08)                 /* 0x08:  A START condition has been transmitted*/
         {
-            LED = ERROR_CODE;
+            I2C_Reset_Flag = 1;
             printf("\nI2C 'Wait Ready' error");
-            while (1);
+            goto Write_Error_Stop;
         }
 
         clr_STA;                            /* Clear STA and Keep SI value in I2CON */
@@ -273,7 +311,22 @@ void One_Page_Write(UINT8 u8PageNumber,UINT8 u8DAT)
     /* Step7 */
     set_STO;                                /* Set STOP Bit to I2C EEPROM */
     clr_SI;
-    while (STO);                            /* Check STOP signal */
+		while (STO)                        /* Check STOP signal */
+		{
+			I2C_SI_Check();
+			if (I2C_Reset_Flag)
+				goto Write_Error_Stop;
+		}
+		
+Write_Error_Stop: 
+		if (I2C_Reset_Flag)
+		{
+				I2C_SI_Check();
+				I2C_Reset_Flag	= 0;
+				printf("\nI2C Write error, test stop");
+		}
+		
+		
 }
 //========================================================================================================
 void main(void)
