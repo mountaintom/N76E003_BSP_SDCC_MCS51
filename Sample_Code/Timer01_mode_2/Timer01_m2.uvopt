@@ -202,10 +202,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>5</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>57</TopLine>
-      <CurrentLine>17</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>26</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Code\Timer01_M2.c</PathWithFileName>
       <FilenameWithoutPath>Timer01_M2.c</FilenameWithoutPath>

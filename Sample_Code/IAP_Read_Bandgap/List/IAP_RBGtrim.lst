@@ -1,4 +1,4 @@
-C51 COMPILER V9.52.0.0   IAP_RBGTRIM                                                       01/19/2017 13:09:45 PAGE 1   
+C51 COMPILER V9.52.0.0   IAP_RBGTRIM                                                       07/06/2017 11:37:02 PAGE 1   
 
 
 C51 COMPILER V9.52.0.0, COMPILATION OF MODULE IAP_RBGTRIM
@@ -12,7 +12,7 @@ line level    source
              --*/
    2          /*                                                                                                        
              - */
-   3          /* Copyright(c) 2015 Nuvoton Technology Corp. All rights reserved.                                        
+   3          /* Copyright(c) 2017 Nuvoton Technology Corp. All rights reserved.                                        
              - */
    4          /*                                                                                                        
              - */
@@ -24,7 +24,7 @@ line level    source
    8          //  Nuvoton Technoledge Corp. 
    9          //  Website: http://www.nuvoton.com
   10          //  E-Mail : MicroC-8bit@nuvoton.com
-  11          //  Date   : Apr/21/2016
+  11          //  Date   : Apr/21/2017
   12          //********************************************************************************************************
              -***
   13          
@@ -44,35 +44,34 @@ line level    source
   25              
   26          void READ_BANDGAP()
   27          {
-  28   1      
-  29   1          set_IAPEN;
-  30   1          IAPAL = 0x0C;
-  31   1          IAPAH = 0x00;
-  32   1          IAPCN = READ_UID;
-  33   1          set_IAPGO;
-  34   1          BandgapHigh = IAPFD;
-  35   1          IAPAL = 0x0d;
-  36   1          IAPAH = 0x00;
-  37   1          IAPCN = READ_UID;
-  38   1          set_IAPGO;
-  39   1          BandgapLow = IAPFD;
-  40   1          BandgapLow = BandgapLow&0x0F;
-  41   1          clr_IAPEN;
-  42   1          Bandgap_Value = (BandgapHigh<<4)+BandgapLow;
-  43   1          Bandgap_Voltage = 3072/(0x0fff/Bandgap_Value);
-  44   1      }
-  45          
-C51 COMPILER V9.52.0.0   IAP_RBGTRIM                                                       01/19/2017 13:09:45 PAGE 2   
+  28   1          set_IAPEN;
+  29   1          IAPAL = 0x0C;
+  30   1          IAPAH = 0x00;
+  31   1          IAPCN = READ_UID;
+  32   1          set_IAPGO;
+  33   1          BandgapHigh = IAPFD;
+  34   1          IAPAL = 0x0d;
+  35   1          IAPAH = 0x00;
+  36   1          IAPCN = READ_UID;
+  37   1          set_IAPGO;
+  38   1          BandgapLow = IAPFD;
+  39   1          BandgapLow = BandgapLow&0x0F;
+  40   1          clr_IAPEN;
+  41   1          Bandgap_Value = (BandgapHigh<<4)+BandgapLow;
+  42   1          Bandgap_Voltage = 3072/(0x0fff/Bandgap_Value);
+  43   1      }
+  44          
+  45          void main(void)
+C51 COMPILER V9.52.0.0   IAP_RBGTRIM                                                       07/06/2017 11:37:02 PAGE 2   
 
-  46          void main(void)
-  47          {
-  48   1        InitialUART0_Timer3(115200);
-  49   1        READ_BANDGAP();
-  50   1        printf ("\n Bandgap voltage = %e", Bandgap_Voltage); 
-  51   1        printf ("\n Bandgap SFR  = 0x%bx", BandgapHigh);
-  52   1        printf ("\n Bandgap SFR  = 0x%bx", BandgapLow);
-  53   1        while(1);
-  54   1      }
+  46          {
+  47   1        InitialUART0_Timer3(115200);
+  48   1        READ_BANDGAP();
+  49   1        printf ("\n Bandgap voltage = %e", Bandgap_Voltage); 
+  50   1        printf ("\n Bandgap SFR  = 0x%bx", BandgapHigh);
+  51   1        printf ("\n Bandgap SFR  = 0x%bx", BandgapLow);
+  52   1        while(1);
+  53   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE

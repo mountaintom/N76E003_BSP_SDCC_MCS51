@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  STARTUP                                                              01/19/2017 13:09:45 PAGE     1
+A51 MACRO ASSEMBLER  STARTUP                                                              07/06/2017 11:37:02 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.02b
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
                       55     ;------------------------------------------------------------------------------
                       56     ;
                       57     ;  Page Definition for Using the Compact Model with 64 KByte xdata RAM
-A51 MACRO ASSEMBLER  STARTUP                                                              01/19/2017 13:09:45 PAGE     2
+A51 MACRO ASSEMBLER  STARTUP                                                              07/06/2017 11:37:02 PAGE     2
 
                       58     ;
                       59     ;  The following EQU statements define the xdata page used for pdata
@@ -88,54 +88,64 @@ LOC  OBJ            LINE     SOURCE
   0082                76     DPL     DATA    82H
   0083                77     DPH     DATA    83H
                       78     
-                      79                     NAME    ?C_STARTUP
+                      79     
                       80     
-                      81     
-                      82     ?C_C51STARTUP   SEGMENT   CODE
-                      83     ?STACK          SEGMENT   IDATA
-                      84     
-----                  85                     RSEG    ?STACK
-0000                  86                     DS      1
-                      87     
-                      88                     EXTRN CODE (?C_START)
-                      89                     PUBLIC  ?C_STARTUP
-                      90     
-----                  91                     CSEG    AT      0
-0000 020000   F       92     ?C_STARTUP:     LJMP    STARTUP1
-                      93     
-----                  94                     RSEG    ?C_C51STARTUP
+                      81                     NAME    ?C_STARTUP
+                      82     
+                      83     
+                      84     ?C_C51STARTUP   SEGMENT   CODE
+                      85     ?STACK          SEGMENT   IDATA
+                      86     
+----                  87                     RSEG    ?STACK
+0000                  88                     DS      1
+                      89     
+                      90                     EXTRN CODE (?C_START)
+                      91                     PUBLIC  ?C_STARTUP
+                      92     
+----                  93                     CSEG    AT      0
+0000 020000   F       94     ?C_STARTUP:     LJMP    STARTUP1
                       95     
-0000                  96     STARTUP1:
+----                  96                     RSEG    ?C_C51STARTUP
                       97     
-                      98     IF IDATALEN <> 0
-0000 787F             99                     MOV     R0,#IDATALEN - 1
-0002 E4              100                     CLR     A
-0003 F6              101     IDATALOOP:      MOV     @R0,A
-0004 D8FD            102                     DJNZ    R0,IDATALOOP
-                     103     ENDIF
-                     104     
-                     105     IF XDATALEN <> 0
-0006 900000          106                     MOV     DPTR,#XDATASTART
-0009 7FFF            107                     MOV     R7,#LOW (XDATALEN)
-                     108       IF (LOW (XDATALEN)) <> 0
-000B 7E03            109                     MOV     R6,#(HIGH (XDATALEN)) +1
-                     110       ELSE
+0000                  98     STARTUP1:
+                      99     ;Disable POR 
+0000 75C7AA          100             MOV 0C7H,#0AAH
+0003 75C755          101             MOV 0C7H,#55H
+0006 75FD5A          102             MOV 0FDH,#5AH
+                     103             
+0009 75C7AA          104             MOV 0C7H,#0AAH
+000C 75C755          105             MOV 0C7H,#55H
+000F 75FDA5          106             MOV 0FDH,#0A5H
+                     107     
+                     108     IF IDATALEN <> 0
+0012 787F            109                     MOV     R0,#IDATALEN - 1
+0014 E4              110                     CLR     A
+0015 F6              111     IDATALOOP:      MOV     @R0,A
+0016 D8FD            112                     DJNZ    R0,IDATALOOP
+                     113     ENDIF
+                     114     
+                     115     IF XDATALEN <> 0
+0018 900000          116                     MOV     DPTR,#XDATASTART
+001B 7FFF            117                     MOV     R7,#LOW (XDATALEN)
+                     118       IF (LOW (XDATALEN)) <> 0
+001D 7E03            119                     MOV     R6,#(HIGH (XDATALEN)) +1
+                     120       ELSE
                                              MOV     R6,#HIGH (XDATALEN)
                                ENDIF
-000D E4              113                     CLR     A
-000E F0              114     XDATALOOP:      MOVX    @DPTR,A
-000F A3              115                     INC     DPTR
-0010 DFFC            116                     DJNZ    R7,XDATALOOP
-0012 DEFA            117                     DJNZ    R6,XDATALOOP
-                     118     ENDIF
-                     119     
-                     120     IF PPAGEENABLE <> 0
+001F E4              123                     CLR     A
+A51 MACRO ASSEMBLER  STARTUP                                                              07/06/2017 11:37:02 PAGE     3
+
+0020 F0              124     XDATALOOP:      MOVX    @DPTR,A
+0021 A3              125                     INC     DPTR
+0022 DFFC            126                     DJNZ    R7,XDATALOOP
+0024 DEFA            127                     DJNZ    R6,XDATALOOP
+                     128     ENDIF
+                     129     
+                     130     IF PPAGEENABLE <> 0
                                              MOV     PPAGE_SFR,#PPAGE
                              ENDIF
-                     123     
-A51 MACRO ASSEMBLER  STARTUP                                                              01/19/2017 13:09:45 PAGE     3
-
-                     124     IF PDATALEN <> 0
+                     133     
+                     134     IF PDATALEN <> 0
                                              MOV     R0,#LOW (PDATASTART)
                                              MOV     R7,#LOW (PDATALEN)
                                              CLR     A
@@ -143,33 +153,33 @@ LOC  OBJ            LINE     SOURCE
                                              INC     R0
                                              DJNZ    R7,PDATALOOP
                              ENDIF
-                     132     
-                     133     IF IBPSTACK <> 0
+                     142     
+                     143     IF IBPSTACK <> 0
                              EXTRN DATA (?C_IBP)
                              
                                              MOV     ?C_IBP,#LOW IBPSTACKTOP
                              ENDIF
-                     138     
-                     139     IF XBPSTACK <> 0
+                     148     
+                     149     IF XBPSTACK <> 0
                              EXTRN DATA (?C_XBP)
                              
                                              MOV     ?C_XBP,#HIGH XBPSTACKTOP
                                              MOV     ?C_XBP+1,#LOW XBPSTACKTOP
                              ENDIF
-                     145     
-                     146     IF PBPSTACK <> 0
+                     155     
+                     156     IF PBPSTACK <> 0
                              EXTRN DATA (?C_PBP)
                                              MOV     ?C_PBP,#LOW PBPSTACKTOP
                              ENDIF
-                     150     
-0014 758100   F      151                     MOV     SP,#?STACK-1
-                     152     ; This code is required if you use L51_BANK.A51 with Banking Mode 4
-                     153     ; EXTRN CODE (?B_SWITCH0)
-                     154     ;               CALL    ?B_SWITCH0      ; init bank mechanism to code bank 0
-0017 020000   F      155                     LJMP    ?C_START
-                     156     
-                     157                     END
-A51 MACRO ASSEMBLER  STARTUP                                                              01/19/2017 13:09:45 PAGE     4
+                     160     
+0026 758100   F      161                     MOV     SP,#?STACK-1
+                     162     ; This code is required if you use L51_BANK.A51 with Banking Mode 4
+                     163     ; EXTRN CODE (?B_SWITCH0)
+                     164     ;               CALL    ?B_SWITCH0      ; init bank mechanism to code bank 0
+0029 020000   F      165                     LJMP    ?C_START
+                     166     
+                     167                     END
+A51 MACRO ASSEMBLER  STARTUP                                                              07/06/2017 11:37:02 PAGE     4
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -177,7 +187,7 @@ SYMBOL TABLE LISTING
 
 N A M E             T Y P E  V A L U E   ATTRIBUTES
 
-?C_C51STARTUP. . .  C SEG    001AH       REL=UNIT
+?C_C51STARTUP. . .  C SEG    002CH       REL=UNIT
 ?C_START . . . . .  C ADDR   -----       EXT
 ?C_STARTUP . . . .  C ADDR   0000H   A   
 ?STACK . . . . . .  I SEG    0001H       REL=UNIT
@@ -188,7 +198,7 @@ DPL. . . . . . . .  D ADDR   0082H   A
 IBPSTACK . . . . .  N NUMB   0000H   A   
 IBPSTACKTOP. . . .  N NUMB   0100H   A   
 IDATALEN . . . . .  N NUMB   0080H   A   
-IDATALOOP. . . . .  C ADDR   0003H   R   SEG=?C_C51STARTUP
+IDATALOOP. . . . .  C ADDR   0015H   R   SEG=?C_C51STARTUP
 PBPSTACK . . . . .  N NUMB   0000H   A   
 PBPSTACKTOP. . . .  N NUMB   0000H   A   
 PDATALEN . . . . .  N NUMB   0000H   A   
@@ -201,7 +211,7 @@ STARTUP1 . . . . .  C ADDR   0000H   R   SEG=?C_C51STARTUP
 XBPSTACK . . . . .  N NUMB   0000H   A   
 XBPSTACKTOP. . . .  N NUMB   0000H   A   
 XDATALEN . . . . .  N NUMB   02FFH   A   
-XDATALOOP. . . . .  C ADDR   000EH   R   SEG=?C_C51STARTUP
+XDATALOOP. . . . .  C ADDR   0020H   R   SEG=?C_C51STARTUP
 XDATASTART . . . .  N NUMB   0000H   A   
 
 

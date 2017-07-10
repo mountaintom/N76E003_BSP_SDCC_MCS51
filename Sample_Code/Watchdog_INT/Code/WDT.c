@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------------------------------*/
 /*                                                                                                         */
-/* Copyright(c) 2016 Nuvoton Technology Corp. All rights reserved.                                         */
+/* Copyright(c) 2017 Nuvoton Technology Corp. All rights reserved.                                         */
 /*                                                                                                         */
 /*---------------------------------------------------------------------------------------------------------*/
 
@@ -8,13 +8,12 @@
 //  Nuvoton Technoledge Corp. 
 //  Website: http://www.nuvoton.com
 //  E-Mail : MicroC-8bit@nuvoton.com
-//  Date   : Apr/21/2016
+//  Date   : Apr/21/2017
 //***********************************************************************************************************
 
 //***********************************************************************************************************
 //  File Function: N76E003 Watch Dog as pure timer with interrupt demo code
 //***********************************************************************************************************
-
 #include "N76E003.h"
 #include "Common.h"
 #include "Delay.h"
@@ -30,13 +29,13 @@ void WDT_ISR (void)   interrupt 10
 
 					//---------toggle GPIO1---------	
 						clr_GPIO1;
-						Timer0_Delay1ms(50);
+						Timer2_Delay500us(5);
 						set_GPIO1;
-						Timer0_Delay1ms(50);
+						Timer2_Delay500us(5);
 						clr_GPIO1;
-						Timer0_Delay1ms(50);
+						Timer2_Delay500us(5);
 						set_GPIO1;
-						Timer0_Delay1ms(50);
+						Timer2_Delay500us(5);
 					//---------end toggle GPIO2--------
 		clr_WDTF;
 		set_WDCLR;

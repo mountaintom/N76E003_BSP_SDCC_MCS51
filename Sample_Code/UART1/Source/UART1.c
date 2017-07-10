@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------------------------------*/
 /*                                                                                                         */
-/* Copyright(c) 2015 Nuvoton Technology Corp. All rights reserved.                                         */
+/* Copyright(c) 2017 Nuvoton Technology Corp. All rights reserved.                                         */
 /*                                                                                                         */
 /*---------------------------------------------------------------------------------------------------------*/
 
@@ -8,25 +8,22 @@
 //  Nuvoton Technoledge Corp. 
 //  Website: http://www.nuvoton.com
 //  E-Mail : MicroC-8bit@nuvoton.com
-//  Date   : Apr/21/2016
+//  Date   : Apr/21/2017
 //***********************************************************************************************************
 
 //***********************************************************************************************************
-//  File Function: N76E003 UART-0 Mode1 demo code
+//  File Function: N76E003 UART-1 Mode1 demo code
 //***********************************************************************************************************
-
 #include "N76E003.h"
 #include "Common.h"
 #include "Delay.h"
 #include "SFR_Macro.h"
 #include "Function_define.h"
 
-
 #define BUFFER_SIZE		16
 UINT8  UART_BUFFER[BUFFER_SIZE],temp;
 UINT16 u16CNT=0,u16CNT1=0;
 bit riflag;
-
 
 /******************************************************************************
  * FUNCTION_PURPOSE: Serial port 1 interrupt, echo received data.

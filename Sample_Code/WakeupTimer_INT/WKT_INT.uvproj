@@ -352,9 +352,9 @@
           <GroupName>Source</GroupName>
           <Files>
             <File>
-              <FileName>WKT_INT_wade.c</FileName>
+              <FileName>WKT_INT.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Code\WKT_INT_wade.c</FilePath>
+              <FilePath>.\Code\WKT_INT.c</FilePath>
             </File>
           </Files>
         </Group>

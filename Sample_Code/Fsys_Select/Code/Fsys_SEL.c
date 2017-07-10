@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------------------------------*/
 /*                                                                                                         */
-/* Copyright(c) 2016 Nuvoton Technology Corp. All rights reserved.                                         */
+/* Copyright(c) 2017 Nuvoton Technology Corp. All rights reserved.                                         */
 /*                                                                                                         */
 /*---------------------------------------------------------------------------------------------------------*/
 
@@ -8,7 +8,7 @@
 //  Nuvoton Technoledge Corp. 
 //  Website: http://www.nuvoton.com
 //  E-Mail : MicroC-8bit@nuvoton.com
-//  Date   : Apr/21/2016
+//  Date   : Apr/21/2017
 //***********************************************************************************************************
 
 //***********************************************************************************************************
@@ -73,9 +73,9 @@ void main(void)
     while(1)
     {
 				clr_GPIO1;															// Check LED output tickle time
-        Timer0_Delay1ms(20);
+        clr_P00;
         set_GPIO1;
-        Timer0_Delay1ms(20);
+        set_P00;
     }
 /* =================== */
 }

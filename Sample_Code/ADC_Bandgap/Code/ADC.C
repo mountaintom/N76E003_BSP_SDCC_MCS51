@@ -52,9 +52,9 @@ here after stack initialization.
 ******************************************************************************/
 void main (void) 
 {
-		P12_Quasi_Mode;								//For GPIO1 output, Find in "Function_define.h" - "GPIO INIT"
+		P12_Quasi_Mode;															//For GPIO1 output, Find in "Function_define.h" - "GPIO INIT"
 		InitialUART0_Timer1(115200);
-		Enable_ADC_BandGap;						//Find in "Function_define.h" - "ADC INIT"
+		Enable_ADC_BandGap;													//Find in "Function_define.h" - "ADC INIT"
 
 		while(1)
     {

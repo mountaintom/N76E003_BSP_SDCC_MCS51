@@ -1,4 +1,4 @@
-C51 COMPILER V9.52.0.0   IAP_MHIRC                                                         11/18/2016 11:00:05 PAGE 1   
+C51 COMPILER V9.52.0.0   IAP_MHIRC                                                         07/06/2017 11:34:37 PAGE 1   
 
 
 C51 COMPILER V9.52.0.0, COMPILATION OF MODULE IAP_MHIRC
@@ -12,7 +12,7 @@ line level    source
              --*/
    2          /*                                                                                                        
              - */
-   3          /* Copyright(c) 2016 Nuvoton Technology Corp. All rights reserved.                                        
+   3          /* Copyright(c) 2017 Nuvoton Technology Corp. All rights reserved.                                        
              - */
    4          /*                                                                                                        
              - */
@@ -24,7 +24,7 @@ line level    source
    8          //  Nuvoton Technoledge Corp. 
    9          //  Website: http://www.nuvoton.com
   10          //  E-Mail : MicroC-8bit@nuvoton.com
-  11          //  Date   : Apr/21/2016
+  11          //  Date   : Apr/21/2017
   12          //********************************************************************************************************
              -***
   13          
@@ -42,7 +42,7 @@ line level    source
   23          UINT8 hircmap0,hircmap1;
   24          UINT16 trimvalue16bit;
   25          
-  26          void MODIFY_HIRC_VLAUE(void)
+  26          void MODIFY_HIRC_VLAUE(void)        // Modify HIRC to 16.6MHz, more detail please see datasheet V1.02
   27          {
   28   1          set_IAPEN;
   29   1          IAPAL = 0x30;
@@ -62,7 +62,7 @@ line level    source
   43   1          TA=0XAA;
   44   1          TA=0X55;
   45   1          RCTRIM0 = hircmap0;
-C51 COMPILER V9.52.0.0   IAP_MHIRC                                                         11/18/2016 11:00:05 PAGE 2   
+C51 COMPILER V9.52.0.0   IAP_MHIRC                                                         07/06/2017 11:34:37 PAGE 2   
 
   46   1          TA=0XAA;
   47   1          TA=0X55;

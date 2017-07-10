@@ -202,7 +202,7 @@
 
   <Group>
     <GroupName>Source</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -212,10 +212,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>16</ColumnNumber>
+      <ColumnNumber>20</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>57</TopLine>
-      <CurrentLine>66</CurrentLine>
+      <TopLine>45</TopLine>
+      <CurrentLine>3</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Code\Capture.c</PathWithFileName>
       <FilenameWithoutPath>Capture.c</FilenameWithoutPath>

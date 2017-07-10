@@ -375,6 +375,13 @@
         </Group>
         <Group>
           <GroupName>Startup</GroupName>
+          <Files>
+            <File>
+              <FileName>STARTUP.A51</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\Startup\STARTUP.A51</FilePath>
+            </File>
+          </Files>
         </Group>
       </Groups>
     </Target>

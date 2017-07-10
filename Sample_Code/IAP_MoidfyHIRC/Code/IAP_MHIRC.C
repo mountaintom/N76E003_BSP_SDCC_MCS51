@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------------------------------*/
 /*                                                                                                         */
-/* Copyright(c) 2016 Nuvoton Technology Corp. All rights reserved.                                         */
+/* Copyright(c) 2017 Nuvoton Technology Corp. All rights reserved.                                         */
 /*                                                                                                         */
 /*---------------------------------------------------------------------------------------------------------*/
 
@@ -8,7 +8,7 @@
 //  Nuvoton Technoledge Corp. 
 //  Website: http://www.nuvoton.com
 //  E-Mail : MicroC-8bit@nuvoton.com
-//  Date   : Apr/21/2016
+//  Date   : Apr/21/2017
 //***********************************************************************************************************
 
 //***********************************************************************************************************
@@ -23,7 +23,7 @@
 UINT8 hircmap0,hircmap1;
 UINT16 trimvalue16bit;
 
-void MODIFY_HIRC_VLAUE(void)
+void MODIFY_HIRC_VLAUE(void)				// Modify HIRC to 16.6MHz, more detail please see datasheet V1.02
 {
 		set_IAPEN;
 		IAPAL = 0x30;

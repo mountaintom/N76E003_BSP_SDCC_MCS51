@@ -207,10 +207,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>3</ColumnNumber>
+      <ColumnNumber>18</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>26</TopLine>
-      <CurrentLine>37</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>8</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Code\xRAM_768byte.c</PathWithFileName>
       <FilenameWithoutPath>xRAM_768byte.c</FilenameWithoutPath>

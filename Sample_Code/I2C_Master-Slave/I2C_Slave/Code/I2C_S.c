@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------------------------------*/
 /*                                                                                                         */
-/* Copyright(c) 2015 Nuvoton Technology Corp. All rights reserved.                                         */
+/* Copyright(c) 2017 Nuvoton Technology Corp. All rights reserved.                                         */
 /*                                                                                                         */
 /*---------------------------------------------------------------------------------------------------------*/
 
@@ -8,7 +8,7 @@
 //  Nuvoton Technoledge Corp. 
 //  Website: http://www.nuvoton.com
 //  E-Mail : MicroC-8bit@nuvoton.com
-//  Date   : May/1/2015
+//  Date   : May/1/2017
 //***********************************************************************************************************
 
 //***********************************************************************************************************
@@ -22,7 +22,7 @@
 #include "Function_define.h"
 
 //***********************************************************************************************************
-//  N76E885-series I2C slave mode demo code, the Slave address = 0xA4
+//  N76E003-series I2C slave mode demo code, the Slave address = 0xA4
 //
 //   ____________            _____________ 
 //  |            |   SDA    |             |
@@ -123,7 +123,7 @@ void Init_I2C(void)
     SDA = 1;                                //set SDA and SCL pins high
     SCL = 1;
     
-    set_P0SR_6;                             //set SCL (P06) is  Schmitt triggered input select.
+    set_P1SR_3;                             //set SCL (P13) is  Schmitt triggered input select.
     
     set_EI2C;                               //enable I2C interrupt by setting IE1 bit 0
     set_EA;
