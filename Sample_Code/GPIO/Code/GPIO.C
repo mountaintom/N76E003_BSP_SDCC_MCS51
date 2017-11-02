@@ -115,7 +115,7 @@ void main (void)
 	
 #if 0
 	InitialUART0_Timer3(115200);
-//	set_CLOEN;  
+//	set_CLOEN;  										// For clock out from P1.1
   
   while(1)
   {

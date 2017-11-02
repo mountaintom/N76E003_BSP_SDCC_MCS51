@@ -141,7 +141,7 @@ All function define inital setting file for Nuvoton N76E003
 #define P17_OpenDrain_Mode		P1M1|=SET_BIT7;P1M2|=SET_BIT7
 #define P30_OpenDrain_Mode		P3M1|=SET_BIT0;P3M2|=SET_BIT0
 //--------- Define all port as quasi mode ---------
-#define Set_All_GPIO_Quasi_Mode			P0M1=0;P0M1=0;P1M1=0;P1M2=0;P3M1=0;P3M2=0
+#define Set_All_GPIO_Quasi_Mode			P0M1=0;P0M2=0;P1M1=0;P1M2=0;P3M1=0;P3M2=0
 
 #define 		set_GPIO1		P12=1
 #define 		clr_GPIO1		P12=0
@@ -284,12 +284,12 @@ All function define inital setting file for Nuvoton N76E003
 #define		TIMER1_MODE0_ENABLE		TMOD&=0x0F
 #define		TIMER1_MODE1_ENABLE		TMOD&=0x0F;TMOD|=0x10
 #define		TIMER1_MODE2_ENABLE		TMOD&=0x0F;TMOD|=0x20
-#define		TIMER1_MODE3_ENABLE		TMOD&=0x0F;TMOD|=0x3F
+#define		TIMER1_MODE3_ENABLE		TMOD&=0x0F;TMOD|=0x30
 //-------------------- Timer1 function define --------------------
 #define		TIMER0_MODE0_ENABLE		TMOD&=0xF0
 #define		TIMER0_MODE1_ENABLE		TMOD&=0xF0;TMOD|=0x01
 #define		TIMER0_MODE2_ENABLE		TMOD&=0xF0;TMOD|=0x02
-#define		TIMER0_MODE3_ENABLE		TMOD&=0xF0;TMOD|=0xF3
+#define		TIMER0_MODE3_ENABLE		TMOD&=0xF0;TMOD|=0x03
 //-------------------- Timer2 function define --------------------
 #define 	TIMER2_DIV_4			T2MOD|=0x10;T2MOD&=0x9F
 #define 	TIMER2_DIV_16			T2MOD|=0x20;T2MOD&=0xAF

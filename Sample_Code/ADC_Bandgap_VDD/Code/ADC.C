@@ -67,18 +67,37 @@ here after stack initialization.
 ******************************************************************************/
 void main (void) 
 {
-		double bgvalue;
-		
-		InitialUART0_Timer1(115200);
-		READ_BANDGAP();														// Read 2 bytes band-gap value after UID .
-		Enable_ADC_BandGap;												// Find in "Function_define.h" - "ADC INIT"
-		ADC_Bypass();															// For Band-gap convert please bypass the first 3 times.
 
-		clr_ADCF;
-		set_ADCS;																	
-    while(ADCF == 0);
-		bgvalue = (ADCRH<<4) + ADCRL;
-		VDD_Voltage = (0xFFF/bgvalue)*Bandgap_Voltage;
+		double bgvalue;
+		unsigned int i;
+		set_CLOEN;
+		P12_Quasi_Mode;														//For GPIO1 output, Find in "Function_define.h" - "GPIO INIT"
+		InitialUART0_Timer1(115200);
+		READ_BANDGAP();
+		Enable_ADC_BandGap;												//Find in "Function_define.h" - "ADC INIT"
+		ADC_Bypass();
+
+		for(i=0;i<5;i++)
+    {
+			Timer0_Delay1ms(20);
+			clr_ADCF;
+			set_ADCS;									// ADC start trig signal
+      while(ADCF == 0);
+			ADCdataH[i] = ADCRH;
+			ADCdataL[i] = ADCRL;
+		}		
+		
+		for(i=0;i<5;i++)
+    {
+			ADCsumH = ADCsumH + ADCdataH[i];
+			ADCsumL = ADCsumL + ADCdataL[i];
+		}				
+
+		ADCavgH = ADCsumH/5;
+		ADCavgL = ADCsumL/5;
+	
+		bgvalue = (ADCavgH<<4) + ADCavgL;
+		VDD_Voltage = (0x1000/bgvalue)*Bandgap_Voltage;
 //		printf ("\n Bandgap voltage = %e", Bandgap_Voltage); 
 //		printf ("\n VDD voltage = %e", VDD_Voltage); 
     while(1);

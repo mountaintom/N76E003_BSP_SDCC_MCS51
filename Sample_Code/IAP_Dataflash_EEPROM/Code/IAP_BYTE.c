@@ -80,7 +80,7 @@ void write_DATAFLASH_BYTE(UINT16 u16_addr,UINT8 u8_data)
 	{
 		u8_addrl_r = 0x80;
 	}
-		xd_tmp = 0x80;
+		xd_tmp = 0x280;
 	  IAPAL = u8_addrl_r;
     IAPAH = u16_addr>>8;
 		set_IAPEN; 
