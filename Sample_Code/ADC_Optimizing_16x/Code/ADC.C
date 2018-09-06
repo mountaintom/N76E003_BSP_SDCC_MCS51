@@ -64,7 +64,8 @@ void main (void)
 		Enable_ADC_AIN0;						// Enable AIN0 P1.7 as ADC input, Find in "Function_define.h" - "ADC INIT"
 		ADCsumH = 0x0000;
 		ADCsumL = 0x0000;
-			
+		
+		CKDIV = 0x02;
 		for(i=0;i<16;i++)
     {
 			clr_ADCF;
@@ -73,15 +74,16 @@ void main (void)
 			ADCdataH[i] = ADCRH;
 			ADCdataL[i] = ADCRL;
 		}		
-		
-		for(i=0;i<16;i++)
+		CKDIV = 0x00;
+		Disable_ADC;
+		for(i=0x02;i<14;i++)
     {
 			ADCsumH = ADCsumH + ADCdataH[i];
 			ADCsumL = ADCsumL + ADCdataL[i];
 		}				
 
-		ADCavgH = ADCsumH/16;
-		ADCavgL = ADCsumL/16;
+		ADCavgH = ADCsumH/14;
+		ADCavgL = ADCsumL/14;
 		P05 = 1;
 		while(1);
 }

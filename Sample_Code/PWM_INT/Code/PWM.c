@@ -127,8 +127,8 @@ void main(void)
 		PWM_CLOCK_DIV_8;
 		PWMPH = 0x03;							//Setting PWM period
 		PWMPL = 0xFF;
-		PWM0H = 0x01;							//PWM0 high duty = 1/2 PWM period
-		PWM0L = 0xFF;	
+		PWM2H = 0x01;							//PWM0 high duty = 1/2 PWM period
+		PWM2L = 0xFF;	
 
 		set_EPWM;									//Enable PWM interrupt
 		set_EA;									
