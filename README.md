@@ -1,4 +1,14 @@
 # Nuvoton N76E003 BSP for SDCC
+## Usage
+ 1. Compile Common.c and Delay.c
+```
+sdcc -c Common.c -D FOSC_160000
+sdcc -c Delay.c -D FOSC_160000
+```
+2. Compile main.c and link all things together
+```
+sdcc main.c Common.rel Delay.rel
+```
 ## Benefits using SDCC
  - Cross platform included Windows, Linux and OS X.
  - Fully free, no code size limit  and open source.
