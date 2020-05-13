@@ -1,12 +1,24 @@
-typedef bit                   BIT;
-typedef unsigned char         UINT8;
-typedef unsigned int          UINT16;
-typedef unsigned long         UINT32;
+#include <stdint.h>
 
-typedef unsigned char         uint8_t;
-typedef unsigned int          uint16_t;
-typedef unsigned long         uint32_t;
+typedef uint8_t               UINT8;
+typedef uint16_t              UINT16;
+typedef uint32_t              UINT32;
 
+//typedef bit                   BIT;
+//typedef bit                   __bit;
+typedef __bit                   BIT;
+
+
+//typedef unsigned char         UINT8;
+//typedef unsigned int          UINT16;
+//typedef unsigned long         UINT32;
+
+
+/****
+//typedef unsigned char         uint8_t;
+//typedef unsigned int          uint16_t;
+//typedef unsigned long         uint32_t;
+****/
 
 
 
@@ -33,4 +45,5 @@ void  Send_Data_To_UART1(UINT8 c);
 UINT8 Receive_Data_From_UART1(void);
 void  InitialUART1(UINT32 u32Baudrate);
 
-extern bit BIT_TMP;
+//extern bit BIT_TMP;
+extern __bit BIT_TMP;

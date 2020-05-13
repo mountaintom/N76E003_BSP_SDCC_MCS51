@@ -4,10 +4,17 @@ N76E003 Function_define.h V1.02
 All function define inital setting file for Nuvoton N76E003
 --------------------------------------------------------------------------*/
 
-#include <intrins.h>
-#include <stdio.h>
+//#include <intrins.h>
 
-#define nop _nop_();
+
+#include <stdio.h>
+#include <stdint.h>
+typedef uint8_t               UINT8;
+typedef uint16_t              UINT16;
+typedef uint32_t              UINT32;
+
+//#define nop _nop_();
+#define nop __asm__ ("NOP");
 
 
 //16 --> 8 x 2
